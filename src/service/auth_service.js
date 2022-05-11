@@ -7,7 +7,7 @@ class AuthService {
     return firebaseApp.auth().signInWithPopup(authProvider); // class로 만들어줬기때문에 return해줌
   }
 
-  onAuthChange(onUserChanged) {
+  onAuthChange(onUserChanged) {                         // onUserChanged는 임의의 익명함수
       firebase.auth().onAuthStateChanged(user => {
           onUserChanged(user);
       });
