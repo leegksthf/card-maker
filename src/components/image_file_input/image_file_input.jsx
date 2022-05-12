@@ -1,7 +1,9 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import styles from "./image_file_input.module.css";
 
 const ImageFileInput = ({ imageUploader, name, onFileChange }) => {
+  const [loading, setLoading] = useState(false);
+
   const inputRef = useRef();
   const onButtonClick = (event) => {
     event.preventDefault();
@@ -9,8 +11,10 @@ const ImageFileInput = ({ imageUploader, name, onFileChange }) => {
   };
 
   const onChange = async (event) => {
+    setLoading(true);
     imageUploader.upload(event.target.files[0]);
     const uploaded = await imageUploader.upload(event.target.files[0]);
+    setLoading(false);
     console.log(uploaded); //result.json()이 결과
     onFileChange({
       name: uploaded.original_filename,
@@ -28,9 +32,15 @@ const ImageFileInput = ({ imageUploader, name, onFileChange }) => {
         onChange={onChange}
       />
       {/* accept: 파일형식 지정. /뒤는 확장자 표시: */}
-      <button className={styles.button} onClick={onButtonClick}>
-        {name || "No file"}
-      </button>
+      {!loading && (
+        <button
+          className={`${styles.button} ${name ? styles.pink : styles.grey}`}
+          onClick={onButtonClick}
+        >
+          {name || "No file"}
+        </button>
+      )}
+      {loading && <div className={styles.loading}></div>}
     </div>
   );
 };
