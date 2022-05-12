@@ -6,7 +6,7 @@ import Footer from "../footer/footer";
 import Header from "../header/header";
 import styles from "./maker.module.css";
 
-const Maker = ({ authService }) => {
+const Maker = ({ FileInput, authService }) => {
   const [cards, setCards] = useState({
     //배열로 만들어줘도 되지만 많아질수록 맵핑하는데 오래걸리니까 object로 처리해줌.
     1: {
@@ -84,6 +84,7 @@ const Maker = ({ authService }) => {
       <Header onLogout={onLogout} />
       <div className={styles.container}>
         <Editor
+          FileInput={FileInput}
           cards={cards}
           addCard={createOrUpdateCard}
           updateCard={createOrUpdateCard}
